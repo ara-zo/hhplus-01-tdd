@@ -2,7 +2,7 @@ package io.hhplus.tdd.point
 
 import io.hhplus.tdd.domain.UserPoint
 import io.hhplus.tdd.repository.UserPointRepository
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -21,7 +21,7 @@ class PointServiceTest {
     private lateinit var pointService: PointService
 
     @Test
-    @DisplayName("아이디로 포인트 조회")
+    @DisplayName("아이디로 포인트 조회을 조회한다.")
     fun findPointById() {
         // given
         val id = 1L
@@ -31,7 +31,7 @@ class PointServiceTest {
         val result = pointService.findPointById(id)
 
         // then
-        assertEquals(id, result.id)
-        assertEquals(0, result.point)
+        assertThat(result.id).isEqualTo(id)
+        assertThat(result.point).isZero()
     }
 }
