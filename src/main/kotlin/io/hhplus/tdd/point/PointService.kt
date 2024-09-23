@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class PointService(
-    private var userPointRepository: UserPointRepository
+    private var userPointRepository: UserPointRepository,
 ) {
 
     // 포인트 조회
