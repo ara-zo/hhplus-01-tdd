@@ -1,6 +1,7 @@
 package io.hhplus.tdd.point
 
 import io.hhplus.tdd.domain.PointHistory
+import io.hhplus.tdd.domain.TransactionType
 import io.hhplus.tdd.domain.UserPoint
 import io.hhplus.tdd.repository.PointHistoryRepository
 import io.hhplus.tdd.repository.UserPointRepository
@@ -23,8 +24,16 @@ class PointService(
     }
 
     // 포인트 충전
+    fun charge(id: Long, amount: Long): UserPoint {
+        // 1. 포인트 조회
+        val userPoint = userPointRepository.findById(id)
 
-    // 포인트 사용
+        // 2. 포인트 충전
+        val result = userPointRepository.save(userPoint.charge(amount))
 
+        // 3. 포인트 충전 내역 등록
+        pointHistoryRepository.save(id, TransactionType.CHARGE, amount, System.currentTimeMillis())
 
+        return result
+    }
 }
