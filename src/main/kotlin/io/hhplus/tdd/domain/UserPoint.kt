@@ -11,11 +11,13 @@ data class UserPoint(
     }
 
     // 포인트 충전
-    fun charge(point: Long): UserPoint {
-        if (point <= 0) {
-            throw IllegalArgumentException("point is invalid")
+    fun charge(amount: Long): UserPoint {
+        when {
+            amount <= 0 -> throw IllegalArgumentException("point is invalid")
+            1000L < this.point + amount -> throw IllegalArgumentException("A request has been made to accumulate more than the maximum balance.")
         }
-        return UserPoint(this.id, this.point + point, System.currentTimeMillis())
+
+        return UserPoint(this.id, this.point + amount, System.currentTimeMillis())
     }
 
     // 포인트 사용
