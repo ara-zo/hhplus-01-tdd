@@ -120,7 +120,7 @@ class PointServiceTest {
         // given
         val id = 1L
         val userPoint = UserPoint(id, 50L, System.currentTimeMillis())  // 적립된 포인트는 50
-        val useAmount = 100L  // 사용하려는 포인트는 100
+        val useAmount = 100L
 
         // when
         `when`(userPointRepository.findById(id)).thenReturn(userPoint)
@@ -129,5 +129,22 @@ class PointServiceTest {
         assertThatThrownBy { pointService.use(id, useAmount) }
             .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessageContaining("The accumulated points are less than the points used.")
+    }
+
+    @Test
+    @DisplayName("최대 잔고 이상 적립시 예외 발생")
+    fun chargeOverPoint() {
+        // given
+        val id = 1L
+        val amount = 100L
+        val userPoint = UserPoint(id, 1000L, System.currentTimeMillis())
+
+        // when
+        `when`(userPointRepository.findById(id)).thenReturn(userPoint)
+
+        // then
+        assertThatThrownBy { pointService.charge(id, amount) }
+            .isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessageContaining("A request has been made to accumulate more than the maximum balance.")
     }
 }
