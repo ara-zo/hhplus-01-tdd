@@ -61,8 +61,7 @@ class PointServiceTest {
 
         // then
         assertThat(result).hasSize(3)
-        assertThat(result.map { it.id }).containsExactlyInAnyOrder(id)
-        assertThat(result.get(0).amount).isEqualTo(100L)
+        assertThat(result.map { it.id }).containsExactly(1L, 2L, 3L)
+        assertThat(result[0].amount).isEqualTo(100L)
     }
-
 }
